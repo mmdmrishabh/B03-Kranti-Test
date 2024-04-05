@@ -51,10 +51,23 @@
         "padding_top": 20,
         "padding_bottom": 20
       }
+    },
+    "first_section_w4DRjL": {
+      "type": "first-section",
+      "settings": {
+        "image_desktop": "shopify:\/\/shop_images\/Rectangle_3.png",
+        "image_mobile": "shopify:\/\/shop_images\/Rectangle_3.png",
+        "heading": "Business Formal Choices",
+        "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices, felis et eleifend laoreet, lorem turpis porta justo, id cursus sapien diam at quam. Donec dapibus felis non elit condimentum ultrices. Fusce pharetra nisi ut augue feugiat, vitae feugiat tortor rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing eli<\/p>",
+        "button_lable": "Explore Now",
+        "button_link": "shopify:\/\/collections",
+        "image_position": "left"
+      }
     }
   },
   "order": [
     "announcement-bar",
-    "header"
+    "header",
+    "first_section_w4DRjL"
   ]
 }

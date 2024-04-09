@@ -1,0 +1,217 @@
+<style>
+
+    .banner-content{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:end;
+   
+    height:450px;
+    padding:0px 40px;
+    margin:20px auto;
+    {% comment %} border:1px solid black; min-767,max-1024,min-1024,max-766 {% endcomment %}
+    box-sizing:border-box;
+    overflow:hidden;
+    border-radius:18px;
+    width:93%;
+    
+
+    
+
+    }
+    .banner-content--image-container{
+    position:absolute;
+   object-fit:cover;
+    {% comment %} width:1%; {% endcomment %}
+    transition: transform 1s;
+    border-radius:18px;
+    overflow-x:hidden;
+    overflow-y:hidden;
+
+    
+
+    }
+ .banner-content--image-container img{
+        border-radius:18px;
+        } 
+.banner-content:hover img{
+    transform: scale(1.1);
+}
+    .banner-content--text-container{
+    {% comment %} position:absolute; {% endcomment %}
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    justify-content:end;
+    align-items:center;
+    color:#fff;
+    margin-bottom:20px;
+    }
+.banner-content--text-container a{
+    color:#fff;
+    width:120px;
+    height:40px;
+    border-radius:50px;
+    border: 1px solid #FFFFFFCC;
+    text-align:center;
+    text-decoration:none;
+    margin-top:15px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.banner-content--text-container a span{
+    font-size:16px;
+    color:#FFFFFF;
+    width:120px;
+}
+.banner-content--text-container p{
+    color:#FFFFFFCC;
+    font-size:14px;
+    width:490px;
+    text-align:center;
+    line-height:1;
+}
+.banner-content--text-container ul>li{
+    color:#fff;
+    list-style-type:none;
+    font-size:14px;
+    box-sizing:border-box;
+}
+.banner-content--text-container h3 {
+    color:#fff;
+    font-size:44px;
+    width:490px;
+    margin:0px 0px 10px;
+    text-align:center;
+    font-weight:bold;
+    margin-top:0px;
+}
+
+
+/* Media Queries for Small screens (e.g., smartphones) */
+@media only screen and (max-width: 767px) {
+    .banner-content {
+        height: 350px; /* Adjust height for small screens */
+        align-items:center;
+        width:93%;
+        padding:30px;
+        
+    }
+    .banner-content--text-container p {
+        width: 360px; /* Allow text to wrap on small screens */
+        font-size:12px;
+    }
+    .banner-content--text-container h3 {
+        font-size:24px;
+        width:360px;
+     
+    }
+    .banner-content--text-container ul>li{
+        font-size:12px;
+    }
+
+    .banner-content--text-container a span{
+        font-size:14px;
+        width:100px;
+    }
+
+}
+
+/* Media Queries for Medium screens (e.g., tablets) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .banner-content {
+        height: 350px; /* Adjust height for medium screens */
+    }
+}
+
+/* Media Queries for Large screens (e.g., desktops) */
+@media only screen and (min-width: 1025px) {
+    /* Add any additional styles for large screens here */
+}
+</style>
+
+<div class="banner-content page-width">
+
+    
+
+            <img src="{{ section.settings.image_desktop}}" class="banner-content--image-container" width=100% height=450>
+    <div class="banner-content--text-container">
+        {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'content' %}
+                <ul><li>{{ block.settings.preHeading }}</li></ul>
+                
+                <h3>{{ block.settings.heading }}</h3>
+                <p>{{ block.settings.description }}</p>
+                <a href="{{ block.settings.button_link }}"><span>{{ block.settings.button_label }}</span></a>
+            {% endcase %}
+          {% endfor %}
+    </div>
+
+</div>
+
+{% schema %}
+{
+    "name": "Banner content",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+        {
+            "type": "url",
+            "id": "image_desktop",
+            "label": "Desktop Image",
+            "info": "Recommended dimensions : 1440 x 600"
+        },
+        {
+            "type": "url",
+            "id": "image_mobile",
+            "label": "Mobile Image",
+            "info": "Recommended dimensions : 600 x 400"
+        }
+       
+    ],
+    "blocks": [
+    {
+        "name": "content",
+        "type": "content",
+        "settings": [
+            {
+                "type": "text",
+                "id": "preHeading",
+                "label": "Pre Heading",
+                "default": "Introduce"
+            },
+            {
+                "type": "text",
+                "id": "heading",
+                "label": "Heading",
+                "default": "We Believe in the Power of Fashion"
+            },
+            {
+                "type": "richtext",
+                "id": "description",
+                "label": "Description",
+                "default": "<p>fashion emerges as the universal language that speaks volumes without words.</p>"
+            },
+            {
+                "type": "text",
+                "id": "button_label",
+                "label": "Button label",
+                "default": "Show More"
+            },
+            {
+                "type": "url",
+                "id": "button_link",
+                "label": "Button url"
+            }
+        ]
+    }
+    ],
+    "presets": [
+        {
+            "name": "Banner Content"
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,215 @@
+{% comment %}
+  Render an responsive image.
+
+  Accepts:
+  - class: {String} Class to add to the image.
+  - id: {String} ID to add to the image.
+  - mobileImage: {Object} Image object for mobile
+  - mobileSize: {String} Size of the mobile image to occupy on mobile screen
+  - desktopImage: {Object} Image object for desktop
+  - desktopSize: {String} Size of the desktop image to occupy on desktop screen
+
+  Uses:
+  {% render 'responsive-picture' desktopImage:"" ,mobileImage:"" %}
+{% endcomment %}
+
+<style>
+
+    .banner-content{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:end;
+   
+    height:450px;
+    padding:0px 40px;
+    margin:0px auto;
+    {% comment %} border:1px solid black; min-767,max-1024,min-1024,max-766 {% endcomment %}
+    box-sizing:border-box;
+    overflow:hidden;
+    border-radius:18px;
+    width:93%;
+    
+
+    
+
+    }
+    .banner-content--image-container{
+    position:absolute;
+   object-fit:cover;
+    {% comment %} width:1%; {% endcomment %}
+    transition: transform 1s;
+    border-radius:18px;
+    overflow-x:hidden;
+    overflow-y:hidden;
+
+    
+
+    }
+ .banner-content--image-container img{
+        border-radius:18px;
+        } 
+.banner-content:hover img{
+    transform: scale(1.1);
+}
+    .banner-content--text-container{
+    {% comment %} position:absolute; {% endcomment %}
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    justify-content:end;
+    align-items:center;
+    color:#fff;
+    margin-bottom:20px;
+    }
+.banner-content--text-container a{
+    color:#fff;
+    width:120px;
+    height:40px;
+    border-radius:50px;
+    border: 1px solid #FFFFFFCC;
+    text-align:center;
+    text-decoration:none;
+    margin-top:15px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.banner-content--text-container a span{
+    font-size:16px;
+    color:#FFFFFF;
+    width:120px;
+}
+.banner-content--text-container p{
+    color:#FFFFFFCC;
+    font-size:14px;
+    width:490px;
+    text-align:center;
+    line-height:1;
+}
+.banner-content--text-container ul>li{
+    color:#fff;
+    list-style-type:none;
+    font-size:14px;
+    box-sizing:border-box;
+}
+.banner-content--text-container h3 {
+    color:#fff;
+    font-size:44px;
+    width:490px;
+    margin:0px 0px 10px;
+    text-align:center;
+    font-weight:bold;
+    margin-top:0px;
+}
+[srcset*="(max-width:767px)" ]{
+    height:350px;
+    margin:50px;
+}
+
+/* Media Queries for Small screens (e.g., smartphones) */
+@media only screen and (max-width: 767px) {
+    .banner-content {
+        height: 350px; /* Adjust height for small screens */
+    }
+    .banner-content--text-container p {
+        width: auto; /* Allow text to wrap on small screens */
+    }
+}
+
+/* Media Queries for Medium screens (e.g., tablets) */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .banner-content {
+        height: 400px; /* Adjust height for medium screens */
+    }
+}
+
+/* Media Queries for Large screens (e.g., desktops) */
+@media only screen and (min-width: 1025px) {
+    /* Add any additional styles for large screens here */
+}
+</style>
+
+{%- liquid
+    if loading == false
+      assign loading = 'eager'
+    else
+      assign loading = 'lazy'
+    endif
+    assign fetchpriority = 'auto'
+    assign forloop_index = forloop.index | default: 1
+  
+    case template.name
+      when 'index'
+        assign section_lcp_index = 1
+      when 'product'
+        assign section_lcp_index = 1
+      when 'collection'
+        assign section_lcp_index = 1
+    endcase
+  
+    if section.location == 'template' and section.index == section_lcp_index and forloop_index == 1
+      assign fetchpriority = 'high'
+      assign loading = 'eager'
+    elsif section.index == section_lcp_index and forloop_index > 1
+      assign fetchpriority = 'low'
+    endif
+  -%}
+  
+  <picture
+    class="{{ class }}"
+    {% if id != blank %}
+      id="{{id}}"
+    {% endif %}
+  >
+    {% if mobileImage %}
+      <source
+        media="(max-width: 767px)"
+        srcset="
+          {%- if mobileImage.width >= 375 -%}{{ mobileImage | image_url: width: 375 }} 375w,{%- endif -%}
+          {%- if mobileImage.width >= 550 -%}{{ mobileImage | image_url: width: 550 }} 550w,{%- endif -%}
+          {%- if mobileImage.width >= 750 -%}{{ mobileImage | image_url: width: 750 }} 750w,{%- endif -%}
+          {%- if mobileImage.width >= 1100 -%}{{ mobileImage | image_url: width: 1100 }} 1100w,{%- endif -%}
+          {%- if mobileImage.width >= 1500 -%}{{ mobileImage | image_url: width: 1500 }} 1500w,{%- endif -%}
+          {%- if mobileImage.width >= 1780 -%}{{ mobileImage | image_url: width: 1780 }} 1780w,{%- endif -%}
+          {%- if mobileImage.width >= 2000 -%}{{ mobileImage | image_url: width: 2000 }} 2000w,{%- endif -%}
+          {%- if mobileImage.width >= 3000 -%}{{ mobileImage | image_url: width: 3000 }} 3000w,{%- endif -%}
+          {%- if mobileImage.width >= 3840 -%}{{ mobileImage | image_url: width: 3840 }} 3840w,{%- endif -%}
+          {{ mobileImage | image_url }} {{ mobileImage.width }}w
+        "
+        sizes="{{ mobileSize | default: '100vw' }}"
+        width= 100%
+        height=350
+      >
+    {% endif %}
+    <source
+      {% if mobileImage %}
+        media="(min-width: 768px)"
+      {% endif %}
+      srcset="
+        {%- if desktopImage.width >= 375 -%}{{ desktopImage | image_url: width: 375 }} 375w,{%- endif -%}
+        {%- if desktopImage.width >= 550 -%}{{ desktopImage | image_url: width: 550 }} 550w,{%- endif -%}
+        {%- if desktopImage.width >= 750 -%}{{ desktopImage | image_url: width: 750 }} 750w,{%- endif -%}
+        {%- if desktopImage.width >= 1100 -%}{{ desktopImage | image_url: width: 1100 }} 1100w,{%- endif -%}
+        {%- if desktopImage.width >= 1500 -%}{{ desktopImage | image_url: width: 1500 }} 1500w,{%- endif -%}
+        {%- if desktopImage.width >= 1780 -%}{{ desktopImage | image_url: width: 1780 }} 1780w,{%- endif -%}
+        {%- if desktopImage.width >= 2000 -%}{{ desktopImage | image_url: width: 2000 }} 2000w,{%- endif -%}
+        {%- if desktopImage.width >= 3000 -%}{{ desktopImage | image_url: width: 3000 }} 3000w,{%- endif -%}
+        {%- if desktopImage.width >= 3840 -%}{{ desktopImage | image_url: width: 3840 }} 3840w,{%- endif -%}
+        {{ desktopImage | image_url }} {{ desktopImage.width }}w
+      "
+      sizes="{{ desktopSize | default: '100vw' }}"
+      width=100%
+      height=450
+    >
+    <img
+      src="{{ desktopImage | image_url: width: 1500 }}"
+      loading="{{ loading }}"
+      fetchpriority="{{ fetchpriority }}"
+      width=100%
+      height=450
+      class="banner-content--image-container" 
+     
+    >
+  </picture>
+  

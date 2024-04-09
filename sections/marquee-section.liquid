@@ -1,0 +1,77 @@
+{% comment %}
+  Marquee Section
+  Usage: Include this section where you want to display a scrolling marquee of collections.
+{% endcomment %}
+
+<div class="marquee-container">
+    <div class="marquee-content">
+      {% assign collections = "new-collection,womens-clothing-collection,mens-clothing-collection" | split: "," %}
+      {% for collection_handle in collections %}
+        {% assign collection = collections[collection_handle] %}
+        <div class="marquee-item">
+          <h3>{{ collection.title }}</h3>
+          <a href="/collections/{{ collection.handle }}" class="explore-button">Explore</a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+  <style>
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  
+    .marquee-content {
+      display: inline-block;
+      animation: marquee 20s linear infinite;
+    }
+  
+    .marquee-item {
+      display: inline-block;
+      margin-right: 20px;
+    }
+  
+    .explore-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  
+    @keyframes marquee {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+  
+  {% schema %}
+  {
+    "name": "Marquee Section",
+    "settings": [],
+    "blocks": [
+        {
+            "type": "slide",
+            "name": "slide",
+            "settings": [
+                {
+                    
+                }
+            ]
+        }
+    ],
+    "presets": [
+      {
+        "name": "Marquee Section"
+      }
+    ]
+  }
+  {% endschema %}
+  
